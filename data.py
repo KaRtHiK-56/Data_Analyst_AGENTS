@@ -9,15 +9,15 @@ st.header("🤖 Ask AI Agent Data Analyst 📈")
 file = st.file_uploader("Please upload your csv data here:",type="csv")
 
 def analyst():
+    llm = Ollama(model='llama3',temperature=0.7)
     if file is not None:
-        print(type(file))
         agent = create_csv_agent(
-        Ollama(model='llama3',temperature=0.1),
-        file,
-        verbose=True,
-        #agent_type=AgentType.SELF_ASK_WITH_SEARCH,
-        allow_dangerous_code=True,
-        handle_parsing_errors=True,
+                llm,
+                file,
+                verbose=True,
+                agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+                allow_dangerous_code=True,
+                handle_parsing_errors=True,
         )
 
         question = st.text_area("Please ask your question:")
